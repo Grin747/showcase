@@ -1,0 +1,83 @@
+<!doctype html>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <title>Shop</title>
+</head>
+<body>
+<div class="container py-3">
+    <div class="row g-6">
+
+        <div class="col-8">
+
+            <h2>Products</h2>
+
+            <p class="my-2 lead">Add to store</p>
+            <div class="container">
+                <form action="/add" method="post" class="mb-3">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Name</span>
+                        <input type="text" name="product" class="form-control" aria-label="product">
+                        <span class="input-group-text">Count</span>
+                        <input type="number" name="count" class="form-control" aria-label="count">
+                    </div>
+                    <button type="submit" class="btn btn-outline-success">Add</button>
+                </form>
+            </div>
+
+            <p class="my-2 lead">Add to cart</p>
+            <div class="container">
+                <div th:each="item : ${store}">
+                    <form action="/" method="post" class="row g-3 mb-3">
+                        <div class="col-4">
+                            <label for="product" class="visually-hidden">Product</label>
+                            <input type="text" readonly class="form-control-plaintext" id="product" name="product"
+                                   th:value="${item.key}">
+                        </div>
+                        <div class="col-2">
+                            <label for="stored" class="visually-hidden">Stored</label>
+                            <input type="text" readonly class="form-control-plaintext" id="stored"
+                                   th:value="${item.value}">
+                        </div>
+                        <div class="col-2">
+                            <label for="count" class="visually-hidden">Count</label>
+                            <input type="number" th:max="${item.value}" class="form-control" id="count" name="count">
+                        </div>
+                        <div class="col-2">
+                            <button type="submit" class="btn btn-outline-success">+</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-4">
+            <h2>Cart</h2>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Count</th>
+                </tr>
+                </thead>
+                <tbody th:each="item : ${cart}">
+                <tr>
+                    <td th:text="${item.key}">
+                    <td th:text="${item.value}">
+                </tr>
+                </tbody>
+            </table>
+            <form method="post" action="/buy">
+                <button type="submit" class="btn btn-outline-success">Buy</button>
+            </form>
+        </div>
+
+
+    </div>
+</div>
+</body>
+</html>
